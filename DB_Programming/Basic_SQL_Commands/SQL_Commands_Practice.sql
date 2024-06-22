@@ -92,11 +92,11 @@ Delete from employee_info where FirstName='Akash';    --- Delete a particular ro
 Delete from employee_info where EmployeeID=10;        --- Delete a particular row
 select *  from employee_info                          --- Retrieving Records from Table
 
----------------Order By, Group By and Having Clause--------------
+---------------Group By, Having, Order By  Clause--------------
 
 SELECT * FROM employee_info;
 SELECT * FROM employee_info WHERE City='Varanasi';
- SELECT City, COUNT (*) FROM employee_info WHERE State = 'UP' Group By City Order By City;
+SELECT City, COUNT (*) FROM employee_info WHERE State = 'UP' Group By City Order By City;
 SELECT City, COUNT (*) FROM employee_info WHERE State = 'MP' Group By City Order By City;
 SELECT City, COUNT (*) FROM employee_info WHERE State = 'UP' Group By City HAVING COUNT (*) > 2 Order By City;
 
@@ -200,7 +200,6 @@ INSERT INTO employee_info (FirstName,LastName,Address,City,PhoneNumber,Salary,St
 select * from employee_info;
 -------------------------SQL Server OFFSET FETCH----------------------
 
---Summary: in this tutorial, you will learn how to use the SQL Server OFFSET FETCH clauses to limit the number of rows returned by a query.
 --The OFFSET and FETCH clauses are the options of the ORDER BY clause. They allow you to limit the number of rows to be returned by a query.
 
 --The following illustrates the syntax of the OFFSET and FETCH clauses:
@@ -220,8 +219,11 @@ select * from employee_info;
 --The OFFSET clause is mandatory while the FETCH clause is optional. Also, the FIRST and NEXT are synonyms respectively 
 --so you can use them interchangeably.
 --Note that you must use the OFFSET and FETCH clauses with the ORDER BY clause. Otherwise, you will get an error.
+--To include a serial number (S.No) as the first column in your SQL query, you can use the ROW_NUMBER() window function.
+--The function 'ROW_NUMBER' must have an OVER clause.
 
 SELECT
+	ROW_NUMBER() OVER (Order By LastName) as SNO,
     FirstName,
     LastName
 FROM
@@ -232,6 +234,7 @@ ORDER BY
 
 --To skip the first 5 Name and return the rest, you use the OFFSET clause as shown in the following statement:
 SELECT
+	ROW_NUMBER() OVER (Order By LastName) as SNO,
     FirstName,
     LastName
 FROM
@@ -241,8 +244,9 @@ ORDER BY
     FirstName
 OFFSET 5 ROWS;
 
---To skip the first 4 employees and select the next 3 products, you use both OFFSET and FETCH clauses as follows:
+--To skip the first 4 employees and select the next 3 employees, you use both OFFSET and FETCH clauses as follows:
 SELECT
+	ROW_NUMBER() OVER (Order By LastName) AS SNo,
     FirstName,
     LastName
 FROM
@@ -250,11 +254,12 @@ FROM
 ORDER BY
 	LastName,
     FirstName
-OFFSET 4 ROWS
+OFFSET 4 ROW
 FETCH NEXT 3 ROWS ONLY;
 
 --To get the top 7 highest paid employees we can use both OFFSET and FETCH clauses:
 SELECT
+	ROW_NUMBER() OVER (Order By Salary Desc) AS SNo,
     FirstName,
     LastName,
 	Salary
@@ -267,6 +272,43 @@ OFFSET 0 ROWS
 FETCH NEXT 7 ROWS ONLY;
 
 select * from employee_info;
+
+--To count the total number of rows returned by your query, you can use a COUNT(*) function. One way to achieve this is by 
+--using a common table expression (CTE) or a subquery. Here's an example using a CTE:
+WITH EmployeeData AS (
+    SELECT
+        ROW_NUMBER() OVER (ORDER BY LastName) AS SNO,
+        FirstName,
+        LastName
+    FROM
+        employee_info
+)
+SELECT
+    *,
+    (SELECT COUNT(*) FROM EmployeeData) AS TotalCount
+FROM
+    EmployeeData
+ORDER BY
+    LastName,
+    FirstName;
+
+
+--Alternatively, if you prefer to use a subquery instead of a CTE, you can write:
+SELECT
+    *,
+    (SELECT COUNT(*) FROM employee_info AS Subquery) AS TotalCount
+FROM
+    (
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY LastName) AS SNO,
+            FirstName,
+            LastName
+        FROM
+            employee_info
+    ) AS MainQuery
+ORDER BY
+    LastName,
+    FirstName;
 
 
 -----------Introduction to SQL Server SELECT TOP
@@ -284,6 +326,7 @@ select * from employee_info;
 --To avoid this, you can use TOP 1 WITH TIES. It will include not only the first expensive product but also the second one, and so on.
 --1) Using TOP with a constant value
 SELECT TOP 5
+	ROW_NUMBER() OVER (Order By Salary Desc) as SNo,
     FirstName,
     LastName,
 	Salary
@@ -296,6 +339,7 @@ select * from employee_info;
 
 --2) Using TOP to return a percentage of rows
 SELECT TOP 30 PERCENT
+	ROW_NUMBER() OVER (Order By Salary Desc) as SNo,
     FirstName,
     LastName,
 	Salary
@@ -308,6 +352,7 @@ select * from employee_info;
 
 --3) Using TOP WITH TIES to include rows that match the values in the last row
 SELECT TOP 3 WITH TIES
+	ROW_NUMBER() OVER (Order By Salary Desc) AS SNo,
     FirstName,
     LastName,
 	Salary
