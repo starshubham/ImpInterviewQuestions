@@ -76,17 +76,18 @@ Execute the following query with Include Actual Execution Plan turned ON
 */
 
 Select * from EmployeesIndex Where Name = 'ABC 9320'
+Select * from EmployeesIndex Where Email = 'abc9320@startech.com'
 
 /*
 Notice, the operation is Clustered Index Scan. Since there is no proper index to help this query, 
 the database engine has no other choice than to read every record in the table. This is exactly the reason 
-why Number of rows read is 1 million, i.e every row in the table
+why Number of rows read is 10 thousand, i.e every row in the table
 
-Number of rows read = 1000000
+Number of rows read = 10000
 Actual number of rows for all executions = 1
 
 How many rows are we expecting in the result? Well, only one row because there is only one employee whose 
-Name = 'ABC 932000'. So, to produce this 1 row as the result, SQL server has to read all the 1 million rows 
+Name = 'ABC 9320'. So, to produce this 1 row as the result, SQL server has to read all the 10 thousand rows 
 from the table because there is no index to help this query. This is called Index Scan and in general, 
 Index Scans are bad for performance.
 */
@@ -132,7 +133,7 @@ performance of your database.
 * Find column in query which is used frequently for searching.
 
 						DISADVANTAGES OF INDEXING
-* In case of update(change in indexed column) and delete a record, the database might need to move the entire row into
+* In case of update(change in indexed column) and delete a record, the database might need to move the entire
 row into a new position to keep the rows in sorted order.
 
 */
@@ -214,7 +215,7 @@ GO
 
 --------------- Insert a new data in Employees Table ------------------------
 INSERT INTO Employees(Name,Age,Address,Salary,Dept_ID) Values
-	('Arjun',24,'Jammu',400000,3)
+	('Abhishek',24,'Gorakhpur',400000,3)
 
 Select * from Employees;
 Select * from Employees_Audit;

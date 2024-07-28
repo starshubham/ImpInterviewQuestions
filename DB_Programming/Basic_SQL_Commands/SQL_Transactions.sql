@@ -21,6 +21,7 @@ INSERT INTO employeeTrans (emp_id, dept, Age, salary) Values
 	(103,3,27,40000),
 	(104,3,24,50000);
 
+--truncate table employeeTrans
 /*
 	Autocommit Transaction(By Default):
 		Autocommit Transaction mode is the default transaction for the SQL Server. The successful statements are committed

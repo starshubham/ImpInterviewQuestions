@@ -113,8 +113,8 @@ Select * from vwDemo
 INSERT INTO vwDemo(FirstName,LastName,Address,City,PhoneNumber,Salary,StartDate,Gender,State,JOB_ROLE) Values
 	('Sumit','Rawat','Civil Line','Gorakhpur','7845128956',700000,GETDATE(),'M','UP','Snr Developer')
 
-DELETE FROM vwDemo Where EmployeeID=18
-UPDATE vwDemo Set LastName='Singh' Where EmployeeID=15;
+DELETE FROM vwDemo Where EmployeeID=22
+UPDATE vwDemo Set LastName='Singh' Where EmployeeID=23;
 
 
 ----------------------------------------------------------------------------------

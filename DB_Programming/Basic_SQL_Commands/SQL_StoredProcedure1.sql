@@ -107,7 +107,7 @@ BEGIN
 END
 
 Declare @var money
-EXEC spAddDigits 27, 23, @Var OUTPUT;
+EXEC spAddDigits 27, 23, @var OUTPUT;
 SELECT @var
 
 --Stored Procedure security with encryption

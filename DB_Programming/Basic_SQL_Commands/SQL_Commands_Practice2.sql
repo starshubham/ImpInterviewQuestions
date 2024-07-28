@@ -91,7 +91,18 @@ FROM
 WHERE 
     e.id IS NULL;
 
---The following Venn diagram illustrates the result of the left join that selects rows available only in the left table:
+-- Below script act like a inner join
+SELECT  
+    c.id candidate_id,
+    c.fullname candidate_name,
+    e.id employee_id,
+    e.fullname employee_name
+FROM 
+    hr.candidates c
+    LEFT JOIN hr.employees e 
+        ON e.fullname = c.fullname
+WHERE 
+    e.id IS Not NULL;
 
 
 --------------------------SQL Server Right Join----------------------------

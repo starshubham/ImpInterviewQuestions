@@ -517,6 +517,7 @@ ORDER BY
 
 --A) Using AND operator example
 SELECT
+	ROW_NUMBER() OVER(Order By Salary Desc) As SNo,
     *
 FROM
     employee_info
@@ -613,7 +614,7 @@ SELECT
 FROM
     employee_info
 WHERE
-    (Salary<300000 or Salary>600000) and Gender='F'
+    (Salary<400000 or Salary>600000) and Gender='M'
 ORDER BY
     Salary DESC;
 
@@ -859,25 +860,32 @@ SELECT * FROM sales.feedbacks;
 
 --If you want to search for 30% in the comment column, you may come up with a query like this:
 SELECT 
-   feedback_id,comment
+   feedback_id,comments
 FROM 
    sales.feedbacks
 WHERE 
-   comment LIKE '%30%';
+   comments LIKE '%30%';
 
 --The query returns the comments that contain 30% and 30USD, which is not what we expected.
 
 --To solve this issue, you need to use the ESCAPE clause:
 
 SELECT 
-   feedback_id, comment
+   feedback_id, comments
 FROM 
    sales.feedbacks
 WHERE 
-   comment LIKE '%30!%%' ESCAPE '!';
+   comments LIKE '%30!%%' ESCAPE '!';
 
---In this query, the  ESCAPE clause specified that the character ! is the escape character. 
---It instructs the LIKE operator to treat the % character as a literal string instead of a wildcard. 
+SELECT 
+   feedback_id, comments
+FROM 
+   sales.feedbacks
+WHERE 
+   comments LIKE '%30/%%' ESCAPE '/';
+
+--In this query, the  ESCAPE clause specified that the character ! or / is the escape character. 
+--It instructs the LIKE operator to treat the % or / character as a literal string instead of a wildcard. 
 --Note that without the ESCAPE clause, the query would return an empty result set.
 
 
@@ -976,7 +984,7 @@ SELECT
 FROM 
 	Employees AS E, Dept AS D
 WHERE
-	E.Dept_ID=D.Dept_ID;
+	E.Dept_ID = D.Dept_ID;
 
 --In this query, E is the alias for the Employees table and D is the alias for the Dept table.
 

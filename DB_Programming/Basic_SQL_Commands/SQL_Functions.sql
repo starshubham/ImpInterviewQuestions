@@ -118,18 +118,18 @@ AS
 BEGIN
 	Declare @str varchar(100)
 	if @age >= 18
-	BEGIN
-		set @str = 'You are eligible to Vote'
-	END
+		BEGIN
+			set @str = 'You are eligible to Vote'
+		END
 	else
-	BEGIN
-		set @str = 'You are not eligible to Vote'
-	END
+		BEGIN
+			set @str = 'You are not eligible to Vote'
+		END
 	return @str
 END
 
 Select dbo.CheckVotersAge(15)
-
+drop function dbo.CheckVotersAge
 
 --------- Scalar function can call other functions ---------------
 Create function GetMyDate()
@@ -187,9 +187,9 @@ SELECT FirstName + '-' + CAST(EmployeeID AS Varchar), CAST(StartDate AS Varchar)
 SELECT CAST(EmployeeID AS Varchar)+ '-' + FirstName as EmpNameWithId, StartDate from employee_info;
 SELECT CONVERT(Varchar, EmployeeID)+ '-' + FirstName as EmpNameWithId, StartDate from employee_info;
 
-SELECT COUNT(EmployeeID) from employee_info GROUP BY StartDate;
-SELECT COUNT(EmployeeID) from employee_info GROUP BY CAST(StartDate AS Date);
-SELECT COUNT(EmployeeID) from employee_info GROUP BY CONVERT(Date, StartDate);
+SELECT COUNT(EmployeeID) 'Total Count', StartDate from employee_info GROUP BY StartDate;
+SELECT COUNT(EmployeeID) 'Total Count', CAST(StartDate AS Date) as 'StartDate' from employee_info GROUP BY CAST(StartDate AS Date);
+SELECT COUNT(EmployeeID) 'Total Count', CONVERT(Date, StartDate) as 'StartDate' from employee_info GROUP BY CONVERT(Date, StartDate);
 
 
 --CONVERT (datatype[(len)], expression[, style])
@@ -201,11 +201,11 @@ SELECT COUNT(EmployeeID) from employee_info GROUP BY CONVERT(Date, StartDate);
 104 -- dd.mm.yyyy
 */
 
-SELECT EmployeeID, CONVERT(Varchar, StartDate,8), FirstName, LastName from employee_info;
-SELECT EmployeeID, CONVERT(Varchar, StartDate,101), FirstName, LastName from employee_info;
-SELECT EmployeeID, CONVERT(Varchar, StartDate,102), FirstName, LastName from employee_info;
-SELECT EmployeeID, CONVERT(Varchar, StartDate,103), FirstName, LastName from employee_info;
-SELECT EmployeeID, CONVERT(Varchar, StartDate,104), FirstName, LastName from employee_info;
+SELECT EmployeeID, CONVERT(Varchar, StartDate,8) as 'DateTime', FirstName, LastName from employee_info;
+SELECT EmployeeID, CONVERT(Varchar, StartDate,101) as 'DateTime', FirstName, LastName from employee_info;
+SELECT EmployeeID, CONVERT(Varchar, StartDate,102) as 'DateTime', FirstName, LastName from employee_info;
+SELECT EmployeeID, CONVERT(Varchar, StartDate,103) as 'DateTime', FirstName, LastName from employee_info;
+SELECT EmployeeID, CONVERT(Varchar, StartDate,104) as 'DateTime', FirstName, LastName from employee_info;
 
 
 ------------------------------------------------------------------------------------------------

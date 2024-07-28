@@ -105,8 +105,8 @@ BEGIN
 		Print CONCAT(@TableNo,' x ', @InnerCount, ' = ', @TableNO * @InnerCount);
 		SET @InnerCount = @InnerCount + 1;
 	End
-SET @TableNO = @TableNO + 1;
-Print ''
+	SET @TableNO = @TableNO + 1;
+	Print ''
 End
 Print 'End Of Nested Loop'
 
@@ -159,11 +159,10 @@ VALUES('Arjun','Singh','Jammu','Jammu','8675964876',600000,GETDATE(), CASE WHEN 
 ---Case Statement in ORDER BY Clause------
 Select * from employee_info
 ORDER BY 
-CASE WHEN (Select Count(Gender) from employee_info where Gender ='M') < 5 THEN City
+CASE WHEN (Select Count(Gender) from employee_info where Gender ='M') < 7 THEN City
 Else
 FirstName
 END
-
 
 --------------------------------------------------------------------------------
 
@@ -208,13 +207,13 @@ END
 SELECT * FROM employee_info;
 
 IF EXISTS (SELECT EmployeeID from employee_info where EmployeeID =14)
-BEGIN
-	PRINT 'EmployeeID EXISTS';
-END
+	BEGIN
+		PRINT 'EmployeeID EXISTS';
+	END
 ELSE
-BEGIN
-	PRINT ' EmployeeID DOES NOT EXIST ';
-END
+	BEGIN
+		PRINT ' EmployeeID DOES NOT EXIST ';
+	END
 
 
 -------------------------------------------------------------------------------
